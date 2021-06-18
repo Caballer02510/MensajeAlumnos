@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author DAW2-PROFESOR
+ * @author SergioCaballeroSáez
  */
 public class Utilidades {
     public static ArrayList<Alumno> getAlumnos( String archivo ){

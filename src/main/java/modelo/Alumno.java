@@ -7,7 +7,7 @@ package modelo;
 
 /**
  *
- * @author DAW2-PROFESOR
+ * @author SergioCaballeroSáez
  */
 public class Alumno {
     private int id;

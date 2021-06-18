@@ -19,7 +19,7 @@ import modelo.Utilidades;
 
 /**
  *
- * @author DAW2-PROFESOR
+ * @author SergioCaballeroSáez
  */
 public class ServletMensajes extends HttpServlet {
 ArrayList<String> listaGrupos = new ArrayList<String> () ;
@@ -75,7 +75,13 @@ public void init( ServletConfig config ) throws ServletException {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String grupoSeleccionado = request.getParameter("grupo");
+        String grupoSeleccionado;
+        if(request.getParameter("grupo")== null){
+            grupoSeleccionado = "2daw_a";
+            
+        }else{
+            grupoSeleccionado = request.getParameter("grupo");
+        }
         String nombreFichero = grupoSeleccionado +".txt";
         String nombreCompletoFichero = rutaArchivos.concat(File.separator).concat(nombreFichero);
         ArrayList<Alumno> listaAlumnos = Utilidades.getAlumnos(nombreCompletoFichero);
@@ -97,7 +103,30 @@ public void init( ServletConfig config ) throws ServletException {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String nombreFichero = request.getParameter("grupo_seleccionado");
+        String nombreCompletoFichero = rutaArchivos.concat(File.separator).concat(nombreFichero);
+        ArrayList<Alumno> listaAlumnos = Utilidades.getAlumnos(nombreCompletoFichero);
+        
+        String grupoSeleccionado = request.getParameter("grupo_seleccionado");
+        ArrayList<Alumno> AlumnosSeleccionados = new ArrayList<Alumno>();
+        
+        
+        for(int n=1; n<=30; n++){
+            if(request.getParameter(String.valueOf(n)) !=null){
+                for( Alumno a: listaAlumnos){
+                    if( a.getId()== n ){
+                        Alumno nuevoAlumno = new Alumno(a.getId(),a.getNombre(),a.getApellidos(),a.getEmail());
+                        
+                        AlumnosSeleccionados.add(nuevoAlumno);
+                    }
+                }
+                
+            }
+            
+        }
+        request.setAttribute("AlumnosSeleccionados", AlumnosSeleccionados);
+        request.setAttribute("grupoSeleccionado", grupoSeleccionado);
+        request.getRequestDispatcher("envia.jsp").forward(request, response);
     }
 
     /**
